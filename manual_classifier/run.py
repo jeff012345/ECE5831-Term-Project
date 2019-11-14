@@ -4,6 +4,7 @@ import PIL.Image, PIL.ImageTk
 import os
 import shutil
 import ntpath
+import functools
 
 ##
 ##
@@ -20,24 +21,27 @@ save_image_path = "F:/ece5831/windows/groupings/"
 ## image preview size
 image_size = (300, 300)
 
+## groups
+groups = ['paved', 'gravel', 'unpaved', 'unknown']
+
 ##
 ##
 ##  App Code
 ##
 ##
-paved = os.path.join(save_image_path, 'paved')
-gravel = os.path.join(save_image_path, 'gravel')
-unpaved = os.path.join(save_image_path, 'unpaved')
-unknown = os.path.join(save_image_path, 'unknown')
 
-try:
-    os.mkdir(paved)
-    os.mkdir(gravel)
-    os.mkdir(unpaved)
-    os.mkdir(unknown)
-except OSError:
-    print ("Output already exists or folder does not exist: %s" % save_image_path)
-    quit()
+#create output folders
+groupPaths = []
+
+for group in groups:
+    path = os.path.join(save_image_path, group)
+    groupPaths.append(path)
+
+    try:
+        os.mkdir(path)
+    except OSError:
+        print ("Output already exists or folder does not exist: %s\%s" % (save_image_path, group))
+        #quit()
 
 class App:
     def __init__(self, window):
@@ -61,7 +65,7 @@ class App:
 
         # Create a canvas that can fit the above image
         self.canvas = tkinter.Canvas(self.window, width = image_size[0], height = image_size[1])
-        self.canvas.grid(row=0, column=0)
+        self.canvas.grid(row=0, column=0, columnspan=len(groups))
 
         self.nextImage()
 
@@ -89,36 +93,18 @@ class App:
         self.canvas.create_image(0, 0, image=self.photo, anchor=tkinter.NW)
 
     def setupButtons(self):
-        b = tkinter.Button(self.window, text="Paved", command=self.paved)
-        b.grid(row=1, column=0)
+        i = 0
+        for group in groups:
+            btn = tkinter.Button(self.window, text=group, command=functools.partial(self.groupBtnClick, group))
+            btn.grid(row=1, column=i)
+            i+=1
 
-        b2 = tkinter.Button(self.window, text="Gravel", command=self.gravel)
-        b2.grid(row=1, column=1)
+    def groupBtnClick(self, group):
+        print(group)
 
-        b3 = tkinter.Button(self.window, text="Unpaved", command=self.unpaved)
-        b3.grid(row=1, column=2)
-
-        b4 = tkinter.Button(self.window, text="Unknown", command=self.unknown)
-        b4.grid(row=1, column=3)
-
-    def paved(self):
-        print("paved")
-        self.copyImageAndMask(paved)
-        self.nextImage()
-
-    def gravel(self):
-        print("gravel")
-        self.copyImageAndMask(gravel)
-        self.nextImage()
-
-    def unpaved(self):
-        print("unpaved")
-        self.copyImageAndMask(unpaved)
-        self.nextImage()
-
-    def unknown(self):
-        print("unknown")
-        self.copyImageAndMask(unknown)
+        path = groupPaths[groups.index(group)]
+        
+        self.copyImageAndMask(path)
         self.nextImage()
 
     def nextImage(self):
