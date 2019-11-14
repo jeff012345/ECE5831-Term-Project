@@ -124,26 +124,23 @@ class App:
     def nextImage(self):
         print("next image")
         self.currentPath = self.images.pop()
-
+    
         if self.currentPath is None:
             print("all done")
             quit()
-
+        
+        print(self.currentPath)
         self.newImage(os.path.join(self.currentPath))
 
     def copyImageAndMask(self, folder):
         # copy image
         filename = ntpath.basename(self.currentPath)
-        print(filename, os.path.join(folder, filename))
         shutil.copyfile(self.currentPath, os.path.join(folder, filename))
 
         # find and copy mask
         directory = os.path.dirname(self.currentPath)    
         maskFilename = filename.replace("_sat_", "_mask_").replace(".jpg", ".png")
         maskFilePath = os.path.join(directory, maskFilename)
-
-        print(directory)
-        print(maskFilePath)        
 
         shutil.copyfile(maskFilePath, os.path.join(folder, maskFilename))
 
