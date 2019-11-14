@@ -1,6 +1,6 @@
 Used Python 3.5
 
-Open "run.py" add update the following values
+Open "run.py" and update the following values
 
 image_path = source folder of the images
 
