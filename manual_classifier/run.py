@@ -35,7 +35,6 @@ groups = ['paved_urban', 'paved_rural', 'unpaved_urban', 'unpaved_rural', 'unkno
 if os.path.exists(save_image_path) is False:
     os.mkdir(save_image_path)
 
-mkdirErr = False
 groupPaths = []
 for group in groups:
     path = os.path.join(save_image_path, group)
@@ -44,11 +43,8 @@ for group in groups:
     try:
         os.mkdir(path)
     except OSError:
-        #mkdirErr = True
-        print ("Output already exists or root folder does not exist: %s" % path)
+        print ("Output already exists: %s" % path)
 
-if mkdirErr is True:
-    quit()
 
 class App:
     def __init__(self, window):
@@ -59,15 +55,16 @@ class App:
         self.createGui()
 
     def loadImageList(self):
+        self.findClassifiedImages()
+        
         self.images = []
 
         for root, dirs, files in os.walk(image_path):            
             if root.startswith(save_image_path):
-                print(root, save_image_path)
                 continue
             
             for file in files:
-                if file.endswith(".jpg"):
+                if file.endswith(".jpg") and file not in self.classified:
                     self.images.append(os.path.join(root, file))
 
     def createGui(self):
@@ -132,6 +129,14 @@ class App:
         print(self.currentPath)
         self.newImage(os.path.join(self.currentPath))
 
+    def findClassifiedImages(self):
+        self.classified = []
+        
+        for root, dirs, files in os.walk(save_image_path):                      
+            for file in files:
+                if file.endswith(".jpg"):
+                    self.classified.append(file)        
+        
     def copyImageAndMask(self, folder):
         # copy image
         filename = ntpath.basename(self.currentPath)
