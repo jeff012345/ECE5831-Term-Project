@@ -5,6 +5,7 @@ import os
 import shutil
 import ntpath
 import functools
+import math
 
 ##
 ##
@@ -13,16 +14,16 @@ import functools
 ##
 
 ## source images
-image_path = "F:/ece5831/windows/Sample/"
+image_path = "F:/ece5831/windows/Screens_256Pix/"
 
 ## destination to copy
-save_image_path = "F:/ece5831/windows/groupings/"
+save_image_path = os.path.join(image_path, "groupings")
 
 ## image preview size
-image_size = (300, 300)
+image_size = (512, 512)
 
 ## groups
-groups = ['paved', 'gravel', 'unpaved', 'unknown']
+groups = ['paved_urban', 'paved_rural', 'unpaved_urban', 'unpaved_rural', 'unknown_urban', 'unkown_rural', 'unknown']
 
 ##
 ##
@@ -31,8 +32,11 @@ groups = ['paved', 'gravel', 'unpaved', 'unknown']
 ##
 
 #create output folders
-groupPaths = []
+if os.path.exists(save_image_path) is False:
+    os.mkdir(save_image_path)
 
+mkdirErr = False
+groupPaths = []
 for group in groups:
     path = os.path.join(save_image_path, group)
     groupPaths.append(path)
@@ -40,8 +44,11 @@ for group in groups:
     try:
         os.mkdir(path)
     except OSError:
-        print ("Output already exists or folder does not exist: %s\%s" % (save_image_path, group))
-        #quit()
+        #mkdirErr = True
+        print ("Output already exists or root folder does not exist: %s" % path)
+
+if mkdirErr is True:
+    quit()
 
 class App:
     def __init__(self, window):
@@ -54,7 +61,11 @@ class App:
     def loadImageList(self):
         self.images = []
 
-        for root, dirs, files in os.walk(image_path):
+        for root, dirs, files in os.walk(image_path):            
+            if root.startswith(save_image_path):
+                print(root, save_image_path)
+                continue
+            
             for file in files:
                 if file.endswith(".jpg"):
                     self.images.append(os.path.join(root, file))
@@ -63,10 +74,15 @@ class App:
         # Create a window
         self.window.title("OpenCV and Tkinter")
 
+        colSpan = math.floor(len(groups)/2) + (len(groups) % 2)
+        
         # Create a canvas that can fit the above image
         self.canvas = tkinter.Canvas(self.window, width = image_size[0], height = image_size[1])
-        self.canvas.grid(row=0, column=0, columnspan=len(groups))
+        self.canvas.grid(row=0, column=0, columnspan=colSpan, pady = 2)
 
+        self.canvas2 = tkinter.Canvas(self.window, width = image_size[0], height = image_size[1])
+        self.canvas2.grid(row=0, column=colSpan, columnspan=colSpan, pady = 2)
+        
         self.nextImage()
 
         self.setupButtons()
@@ -75,28 +91,26 @@ class App:
         self.window.mainloop()
 
     def getImage(self, path):
+        print("getImage", path)
         # Load an image using OpenCV
         cv_img = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2RGB)
-
         return cv2.resize(cv_img, image_size, interpolation = cv2.INTER_AREA)
-
-    def showImage(self, cv_img):
-        # Use PIL (Pillow) to convert the NumPy ndarray to a PhotoImage
-        self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(cv_img))
-
-        # Add a PhotoImage to the Canvas
-        self.canvas.create_image(0, 0, image=photo, anchor=tkinter.NW)
 
     def newImage(self, path):
         self.cv_img = self.getImage(path)
         self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(self.cv_img))
         self.canvas.create_image(0, 0, image=self.photo, anchor=tkinter.NW)
 
+        (_, maskFilePath) = self.getMaskPath()
+        self.cv_img2 = self.getImage(maskFilePath)
+        self.photo2 = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(self.cv_img2))
+        self.canvas2.create_image(0, 0, image=self.photo2, anchor=tkinter.NW)
+
     def setupButtons(self):
         i = 0
         for group in groups:
             btn = tkinter.Button(self.window, text=group, command=functools.partial(self.groupBtnClick, group))
-            btn.grid(row=1, column=i)
+            btn.grid(row=1, column=i, pady = 2)
             i+=1
 
     def groupBtnClick(self, group):
@@ -124,11 +138,17 @@ class App:
         shutil.copyfile(self.currentPath, os.path.join(folder, filename))
 
         # find and copy mask
+        (maskFilename, maskFilePath) = self.getMaskPath()
+
+        shutil.copyfile(maskFilePath, os.path.join(folder, maskFilename))
+
+    def getMaskPath(self):
+        filename = ntpath.basename(self.currentPath)
         directory = os.path.dirname(self.currentPath)    
         maskFilename = filename.replace("_sat_", "_mask_").replace(".jpg", ".png")
         maskFilePath = os.path.join(directory, maskFilename)
 
-        shutil.copyfile(maskFilePath, os.path.join(folder, maskFilename))
-
+        return (maskFilename, maskFilePath)
+    
 if __name__ == "__main__":
     App(tkinter.Tk())
