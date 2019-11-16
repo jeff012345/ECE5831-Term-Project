@@ -1,0 +1,2 @@
+images repeated 3 times
+10 epochs
