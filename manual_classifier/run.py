@@ -130,12 +130,12 @@ class App:
         self.newImage(os.path.join(self.currentPath))
 
     def findClassifiedImages(self):
-        self.classified = []
+        self.classified = {}
         
         for root, dirs, files in os.walk(save_image_path):                      
             for file in files:
                 if file.endswith(".jpg"):
-                    self.classified.append(file)        
+                    self.classified[file] = True        
         
     def copyImageAndMask(self, folder):
         # copy image
