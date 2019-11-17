@@ -59,7 +59,7 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                  verbose=1)
 
 ## run fit with k-folds
-n_split = 10
+n_split = 3
 history = None
 
 for train_index, test_index in KFold(n_split).split(train_images):
@@ -78,11 +78,11 @@ model.save('training/trained_model.h5')
 print("final:")
 test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
 
-plt.plot(history.history['accuracy'], label='accuracy')
-plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
-plt.xlabel('Epoch')
-plt.ylabel('Accuracy')
-plt.ylim([0.5, 1])
-plt.legend(loc='lower right')
-plt.show()
+#plt.plot(history.history['accuracy'], label='accuracy')
+#plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
+#plt.xlabel('Epoch')
+#plt.ylabel('Accuracy')
+#plt.ylim([0.5, 1])
+#plt.legend(loc='lower right')
+#plt.show()
 
