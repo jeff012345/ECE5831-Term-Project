@@ -14,10 +14,10 @@ import math
 ##
 
 ## source images
-image_path = "F:/ece5831/windows/Screens_256Pix/"
+image_path = "F:/ece5831/windows/Screens_256Pix/data"
 
 ## destination to copy
-save_image_path = os.path.join(image_path, "groupings")
+save_image_path = "F:/ece5831/windows/Screens_256Pix/groupings"
 
 ## image preview size
 image_size = (512, 512)
@@ -45,14 +45,19 @@ for group in groups:
     except OSError:
         print ("Output already exists: %s" % path)
 
-
 class App:
     def __init__(self, window):
         self.window = window
 
-        #self.createOutputFolders()
         self.loadImageList()
-        self.createGui()
+
+        # create file for output of file names
+        self.report = open("report.txt", "a")
+
+        try:
+            self.createGui()
+        finally:
+            self.report.close()
 
     def loadImageList(self):
         self.findClassifiedImages()
@@ -116,6 +121,10 @@ class App:
         path = groupPaths[groups.index(group)]
         
         self.copyImageAndMask(path)
+
+        self.report.write(ntpath.basename(self.currentPath) + "\n")
+        self.report.flush()
+        
         self.nextImage()
 
     def nextImage(self):
@@ -132,10 +141,18 @@ class App:
     def findClassifiedImages(self):
         self.classified = {}
         
-        for root, dirs, files in os.walk(save_image_path):                      
+        for root, dirs, files in os.walk(save_image_path):                
             for file in files:
                 if file.endswith(".jpg"):
-                    self.classified[file] = True        
+                    self.classified[file] = True
+        
+        # read images from report.txt
+        with open("report.txt") as fp:
+            line = fp.readline()
+            while line:
+                line = line.strip()
+                self.classified[line] = True
+                line = fp.readline()
         
     def copyImageAndMask(self, folder):
         # copy image
