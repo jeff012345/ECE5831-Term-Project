@@ -22,6 +22,15 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="datasets.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="model.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="predict.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="road_classify.py" />
     <Compile Include="train.py" />
   </ItemGroup>
