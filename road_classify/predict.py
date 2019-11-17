@@ -5,6 +5,7 @@ from model import create_model
 import numpy as np
 import tensorflow as tf
 import cv2
+from util import create_dir_or_is_empty
 
 ## config
 checkpoint_dir = None #'F:/ece5831/ECE5831-Term-Project/road_classify/saved_models/100'
@@ -110,12 +111,7 @@ def run():
     print("Completed")
 
 ## make output folder
-try:
-    os.mkdir(predections_output)
-except OSError:
-    if len(os.listdir(predections_output)) != 0:
-        print("Error: Output folder is not empty.")
-        quit()
+create_dir_or_is_empty(predections_output)
 
 # run the predictions
 run()

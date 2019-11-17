@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>1fec52f6-5aa4-480a-9e18-4a9d5d514f75</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>road_classify.py</StartupFile>
+    <StartupFile>train_kfolds.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -12,6 +12,9 @@
     <Name>road_classify</Name>
     <RootNamespace>road_classify</RootNamespace>
     <InterpreterId>CondaEnv|CondaEnv|tf_gpu</InterpreterId>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,9 +25,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="datasets.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="datasets.py" />
     <Compile Include="model.py">
       <SubType>Code</SubType>
     </Compile>
@@ -32,7 +33,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="road_classify.py" />
+    <Compile Include="separate_with_mask.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="separate_with_mask2.py" />
     <Compile Include="train.py" />
+    <Compile Include="train_kfolds.py" />
+    <Compile Include="util.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="CondaEnv|CondaEnv|tf_gpu" />

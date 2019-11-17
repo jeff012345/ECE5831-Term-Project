@@ -4,8 +4,9 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import os
 from sklearn.model_selection import KFold
+import math
 
-from datasets import loadData
+from datasets import load_data_no_split, split_data
 from model import create_model
 
 ##
@@ -27,21 +28,24 @@ class_names = [name for name in os.listdir(data_root_folder) if os.path.isdir(os
 print("classes = ", class_names)
 
 ## load the data
-(train_images, train_labels), (test_images, test_labels) = loadData(data_root_folder, class_names, data_images_extension)
+(images, labels) = load_data_no_split(data_root_folder, class_names, data_images_extension)
+
+print(images.shape, labels.shape)
 
 ## normalize the RGB values
-train_images, test_images = train_images / 255.0, test_images / 255.0
+images = images / 255.0
 
-## preview the images
-#plt.figure(figsize=(10,10))
-#for i in range(25):
-#    plt.subplot(5,5,i+1)
-#    plt.xticks([])
-#    plt.yticks([])
-#    plt.grid(False)
-#    plt.imshow(train_images[i], cmap=plt.cm.binary)
-#    plt.xlabel(class_names[train_labels[i][0]])
-#plt.show()
+## save off a portion for validation
+split = math.floor(len(images) * 0.8)
+
+train_images = images[:split]
+train_labels = labels[:split]
+
+test_images = images[split:]
+test_labels = labels[split:]
+
+images = None
+labels = None
 
 ## create the model
 model = create_model()
@@ -54,11 +58,25 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                  save_weights_only=True,
                                                  verbose=1)
 
-history = model.fit(train_images, train_labels, epochs=5, 
-                    validation_data=(test_images, test_labels),
-                    callbacks=[cp_callback])
+## run fit with k-folds
+n_split = 10
+history = None
+
+for train_index, test_index in KFold(n_split).split(train_images):
+    x_train, x_test = train_images[train_index], train_images[test_index]
+    y_train, y_test = train_labels[train_index], train_labels[test_index]
+
+    history = model.fit(x_train, y_train, epochs=5, 
+                        validation_data=(x_test, y_test),
+                        callbacks=[cp_callback])
+
+    test_loss, test_acc = model.evaluate(x_test,  y_test, verbose=2)
+    
 
 model.save('training/trained_model.h5') 
+
+print("final:")
+test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
 
 plt.plot(history.history['accuracy'], label='accuracy')
 plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
@@ -68,4 +86,3 @@ plt.ylim([0.5, 1])
 plt.legend(loc='lower right')
 plt.show()
 
-test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)

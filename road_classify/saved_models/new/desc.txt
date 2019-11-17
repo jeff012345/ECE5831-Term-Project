@@ -1,2 +1,3 @@
+used the full images. did not remove any pixels 
 images repeated 3 times
 10 epochs
