@@ -1,8 +1,11 @@
 1. Install [Miniconda](https://docs.conda.io/en/latest/miniconda.html) for Python 3.7 and 64-bit
 
 2. Create a new virtual environment
+   
    Open command prompt
+   
    Change directory to Miniconda install directory
+   
    cd to `condabin`   
    ```python
    conda -n tf_gpu python=3.5
