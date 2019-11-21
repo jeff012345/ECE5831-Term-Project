@@ -7,41 +7,59 @@ import random
 import copy
 
 ## load images from folder
-def load_images_data(path, extension):
+def load_images_data(path, extension, max):
     images = []
 
     for file in glob.glob(os.path.join(path, extension)):
         image = cv2.imread(file)
         image = image.astype(np.float32)
         images.append(image)    
-     
+    
+    random.shuffle(images)
+    if max is not None:
+        return images[0:max]
     return images
 
+## counts the number of images for each class and returns the minimum
+def find_min_num_class_images(data_root_folder, class_names, extension = '*.*'):
+    min = 9999999999
+
+    for name in class_names:
+        class_folder = os.path.join(data_root_folder, name)
+        count = len(glob.glob(os.path.join(class_folder, extension)))
+
+        if count < min:
+            min = count
+
+    return min
+
 ## load images from the folder
-def loadData(data_root_folder, class_names, extension = '*.*'):
+def loadData(data_root_folder, class_names, extension = '*.*', even = False):
     train_images = []
     test_images = []
     train_labels = []
     test_labels = []
 
+    if even is True:
+        min_class_images = find_min_num_class_images(data_root_folder, class_names, extension = '*.*')
+        print("Minimum number of images from the classes = ", min_class_images)
+    else:
+        min_class_images = None
+
     classNum = 0
     for name in class_names:
-        images = load_images_data(os.path.join(data_root_folder, name), extension)
-
+        images = load_images_data(os.path.join(data_root_folder, name), extension, min_class_images)
+        
         (train, test) = split_data(images)
         
-        ## add each training image 3 times in random order
-        for i in range(0, 1):
-            train_copy = copy.deepcopy(train)
-            random.shuffle(train_copy)  
-            train_images = train_images + train_copy
-
-            train_labels = train_labels + ([[classNum]] * len(train)) ## repeat the name
+        ## add each training      
+        train_images = train_images + train
+        train_labels = train_labels + ([[classNum]] * len(train)) ## repeat the name
         
         test_images = test_images + test        
         test_labels = test_labels + ([[classNum]] * len(test)) ## repeat the name
 
-        print("Loaded %s images for class '%s'" % (len(images), name))
+        print("Loaded %s images for class '%s'" % (len(train), name))
         classNum += 1    
 
     train_images = np.array(train_images)
@@ -51,12 +69,18 @@ def loadData(data_root_folder, class_names, extension = '*.*'):
 
     return (train_images, train_labels), (test_images, test_labels)
 
-def load_data_no_split(data_root_folder, class_names, extension = '*.*'):
+def load_data_no_split(data_root_folder, class_names, extension = '*.*', even = False):
     images = []
     
+    if even is True:
+        min_class_images = find_min_num_class_images(data_root_folder, class_names, extension = '*.*')
+        print("Minimum number of images from the classes = ", min_class_images)
+    else:
+        min_class_images = None
+
     class_num = 0
     for name in class_names:
-        class_images = load_images_data(os.path.join(data_root_folder, name), extension)
+        class_images = load_images_data(os.path.join(data_root_folder, name), extension, min_class_images)
 
         for img in class_images:
             images.append([img, class_num])        

@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>1fec52f6-5aa4-480a-9e18-4a9d5d514f75</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>train_kfolds.py</StartupFile>
+    <StartupFile>evaluate.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -26,6 +26,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="datasets.py" />
+    <Compile Include="evaluate.py" />
     <Compile Include="model.py">
       <SubType>Code</SubType>
     </Compile>

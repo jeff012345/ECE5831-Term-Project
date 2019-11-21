@@ -24,7 +24,7 @@ data_root_folder = 'F:/ece5831/windows/Ricky/groupings/separated_2class'
 data_images_extension = '*.*'
 
 ## h5 file of model
-model_filepath = "F:/ece5831/windows/models/jeff/trained_model.h5"
+model_filepath = "F:/ece5831/windows/models/jeff_200epochs/trained_model.h5"
 
 ##
 ## END setup values

@@ -3,8 +3,8 @@ import cv2
 import util
 import numpy as np
 
-window_src_dir = 'F:/ece5831/windows/Screens_256Pix/groupings'
-output_dir = 'F:/ece5831/windows/Screens_256Pix/separated'
+window_src_dir = 'F:/ece5831/windows/Ricky/groupings'
+output_dir = 'F:/ece5831/windows/Ricky/groupings/separated'
 
 def read_image(path):
     image = cv2.imread(path)
@@ -25,6 +25,15 @@ def find_images():
     return (images, masks)
 
 def separate_image(image_path, mask_path):
+    out_file_path = get_save_location(image_path)
+
+    if os.path.exists(out_file_path):
+        print("File already exists %s" % out_file_path)
+        return
+
+    f = open(out_file_path, 'w')
+    f.close()
+
     image = read_image(image_path)
     mask = read_image(mask_path)
 
@@ -35,17 +44,17 @@ def separate_image(image_path, mask_path):
         for y in range(0, mask.shape[1]):
             pixels = mask[x][y]
             if pixels[0] != 0.0 or pixels[1] != 0.0 or pixels[2] != 0.0:
-                separated[x][y] = image[x][y]
+                separated[x][y] = image[x][y]    
+                
+    cv2.imwrite(out_file_path, separated)
+    print("separated ::: ", out_file_path)
 
-    save_image(image_path, separated)
-
-def save_image(image_path, separated):
+def get_save_location(image_path):
     save_dir = create_output_folder(image_path)
     file_name = os.path.basename(image_path)
     file_path = os.path.join(save_dir, file_name + ".bmp")
-    
-    #np.save(file_path, separated)
-    cv2.imwrite(file_path, separated);
+
+    return file_path
 
 def create_output_folder(image_path):
     src_directory = os.path.dirname(image_path)
@@ -61,7 +70,7 @@ def create_output_folder(image_path):
 ##
 ## run the code
 ##
-util.create_dir_or_is_empty(output_dir)
+#util.create_dir_or_is_empty(output_dir)
 
 (images, masks) = find_images()
 

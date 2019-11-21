@@ -13,7 +13,8 @@ from model import create_model
 ##
 
 ## where are the images
-data_root_folder = 'F:/ece5831/windows/Screens_256Pix/separated'
+#data_root_folder = 'F:/ece5831/windows/Screens_256Pix/separated'
+data_root_folder = 'F:/ece5831/windows/Ricky/groupings/separated_2class'
 
 ## within the folder, what extensions are we looking for
 data_images_extension = '*.*'
@@ -27,7 +28,7 @@ class_names = [name for name in os.listdir(data_root_folder) if os.path.isdir(os
 print("classes = ", class_names)
 
 ## load the data
-(train_images, train_labels), (test_images, test_labels) = loadData(data_root_folder, class_names, data_images_extension)
+(train_images, train_labels), (test_images, test_labels) = loadData(data_root_folder, class_names, data_images_extension, even = True)
 
 ## normalize the RGB values
 train_images, test_images = train_images / 255.0, test_images / 255.0
@@ -44,7 +45,10 @@ train_images, test_images = train_images / 255.0, test_images / 255.0
 #plt.show()
 
 ## create the model
-model = create_model()
+model = create_model(len(class_names))
+
+weights = tf.train.latest_checkpoint('F:/ece5831/ECE5831-Term-Project/road_classify/training')
+model.load_weights(weights)
 
 checkpoint_path = "training/cp.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
@@ -54,7 +58,7 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                  save_weights_only=True,
                                                  verbose=1)
 
-history = model.fit(train_images, train_labels, epochs=5, 
+history = model.fit(train_images, train_labels, epochs=50, 
                     validation_data=(test_images, test_labels),
                     callbacks=[cp_callback])
 
