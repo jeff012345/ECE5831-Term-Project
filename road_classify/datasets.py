@@ -59,7 +59,7 @@ def loadData(data_root_folder, class_names, extension = '*.*', even = False):
         test_images = test_images + test        
         test_labels = test_labels + ([[classNum]] * len(test)) ## repeat the name
 
-        print("Loaded %s images for class '%s'" % (len(train), name))
+        print("Loaded %s train images and %s test images for class '%s'" % (len(train), len(test) , name))
         classNum += 1    
 
     train_images = np.array(train_images)
