@@ -3,7 +3,7 @@ import cv2
 import util
 import numpy as np
 
-window_src_dir = 'F:/ece5831/windows/Ricky/groupings'
+window_src_dir = 'F:/ece5831/windows/Ricky/groupings/original'
 output_dir = 'F:/ece5831/windows/Ricky/groupings/separated'
 
 def read_image(path):
@@ -12,16 +12,20 @@ def read_image(path):
 
 def find_images():
     images = []
-    masks = []
 
     for root, dirs, files in os.walk(window_src_dir):
         for file in files:
             if file.endswith(".jpg"):
-                images.append(os.path.join(root, file))
-            
-            if file.endswith(".png"):
-                masks.append(os.path.join(root, file))
-
+                images.append(os.path.join(root, file))         
+    
+    masks = []
+    for img in images:
+        mask_filepath = img[0:len(img) - 4] + '.png'
+        mask_filepath = mask_filepath[::-1]
+        mask_filepath = mask_filepath.replace('_tas_', '_ksam_', 1)
+        mask_filepath = mask_filepath[::-1]
+        masks.append(mask_filepath)
+    
     return (images, masks)
 
 def separate_image(image_path, mask_path):
@@ -30,10 +34,15 @@ def separate_image(image_path, mask_path):
     if os.path.exists(out_file_path):
         print("File already exists %s" % out_file_path)
         return
-
-    f = open(out_file_path, 'w')
-    f.close()
-
+    
+    try:
+        f = open(out_file_path, 'w')
+        f.close()
+    except:
+        return
+    
+    print(image_path, mask_path)
+    
     image = read_image(image_path)
     mask = read_image(mask_path)
 
