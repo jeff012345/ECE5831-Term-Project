@@ -13,18 +13,32 @@
    conda install tensorflow-gpu
    pip install -r requirements.txt
    ```
+   
+   Technically this can work with tensorflow CPU version but it's much slower.
 
 ### train.py
 `python train.py`
 
-Simple CNN created from a tutorial.
+Update paths in file
 
 ### train_kfolds.py
 `python train_kfolds.py`
 
-Same CNN as train.py but subsets the training set using k-folds. Still leaves a few images out for final validation.
+Broken
 
 ### predict.py
 `python predict.py`
 
 Used a pretrained model in the h5 format to read images and make a prediction
+Update paths in file
+
+### evaluate.py
+
+Uses the pretrained model to validate the accuracy and create some graphs
+Check the file paths in the file
+
+### separate_with_mask.py
+
+Used to remove all non-road pixels from the base image using the road mask from the DeepGlobe data set
+
+
