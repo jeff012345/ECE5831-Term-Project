@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import os
 from sklearn.model_selection import KFold
 import cv2
+import seaborn as sns
+import numpy as np
+import pandas as pd
 
 from datasets import loadData
 from model import create_model
@@ -15,8 +18,8 @@ import util
 ##
 
 ## where are the images
-#data_root_folder = 'F:/ece5831/windows/Screens_256Pix/separated'
-data_root_folder = 'F:/ece5831/windows/Ricky/groupings/full_urban_rural'
+data_root_folder = 'F:/ece5831/windows/Ricky/groupings/separated_2class'
+#data_root_folder = 'F:/ece5831/windows/Ricky/groupings/full_urban_rural'
 
 ## within the folder, what extensions are we looking for
 data_images_extension = '*.*'
@@ -87,3 +90,43 @@ plt.legend(loc='lower right')
 plt.show()
 
 test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
+
+
+
+classes = list(range(0, len(class_names)))
+classesDict = {}
+i = 0
+for c in class_names:
+    classesDict[c] = i
+    i+=1
+
+
+predictions = model.predict(test_images)
+
+## use the max value from array for each prediction
+predictions = np.argmax(predictions, axis = 1)
+
+## convert the label to the class
+#train_classes = list(map(lambda l: classesDict[l], train_labels))
+
+confusion_matrix = tf.math.confusion_matrix(
+        test_labels,
+        predictions
+    ).numpy()
+
+print("confusion_matrix")
+print(confusion_matrix)
+
+con_mat_norm = np.around(confusion_matrix.astype('float') / confusion_matrix.sum(axis=1)[:, np.newaxis], decimals=2)
+ 
+con_mat_df = pd.DataFrame(con_mat_norm,
+                     index = classes, 
+                     columns = classes)
+
+
+figure = plt.figure(figsize=(8, 8))
+sns.heatmap(con_mat_df, annot = True, cmap = plt.cm.Blues, square = True)
+#plt.tight_layout()
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
+plt.show()
