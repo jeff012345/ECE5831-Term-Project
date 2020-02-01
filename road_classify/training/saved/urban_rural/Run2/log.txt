@@ -1,0 +1,503 @@
+2019-12-03 18:43:16.532396: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+classes =  ['rural', 'urban']
+Minimum number of images from the classes =  570
+Loaded 456 train images and 114 test images for class 'rural'
+Loaded 456 train images and 114 test images for class 'urban'
+Error: training\test_rural folder is not empty.
+
+(tf_gpu) F:\ece5831\ECE5831-Term-Project\road_classify>python train.py
+2019-12-03 18:44:20.847043: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+classes =  ['rural', 'urban']
+Minimum number of images from the classes =  570
+Loaded 456 train images and 114 test images for class 'rural'
+Loaded 456 train images and 114 test images for class 'urban'
+2019-12-03 18:44:26.622196: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2019-12-03 18:44:26.650407: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties:
+name: GeForce GTX 1080 major: 6 minor: 1 memoryClockRate(GHz): 1.8475
+pciBusID: 0000:01:00.0
+2019-12-03 18:44:26.657611: I tensorflow/stream_executor/platform/default/dlopen_checker_stub.cc:25] GPU libraries are statically linked, skip dlopen check.
+2019-12-03 18:44:26.664432: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2019-12-03 18:44:26.669494: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX
+2019-12-03 18:44:26.677251: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties:
+name: GeForce GTX 1080 major: 6 minor: 1 memoryClockRate(GHz): 1.8475
+pciBusID: 0000:01:00.0
+2019-12-03 18:44:26.686053: I tensorflow/stream_executor/platform/default/dlopen_checker_stub.cc:25] GPU libraries are statically linked, skip dlopen check.
+2019-12-03 18:44:26.692278: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2019-12-03 18:44:27.240291: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-12-03 18:44:27.245922: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0
+2019-12-03 18:44:27.249166: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N
+2019-12-03 18:44:27.253730: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 6354 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080, pci bus id: 0000:01:00.0, compute capability: 6.1)
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+conv2d (Conv2D)              (None, 254, 254, 128)     3584
+_________________________________________________________________
+max_pooling2d (MaxPooling2D) (None, 127, 127, 128)     0
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 125, 125, 128)     147584
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 62, 62, 128)       0
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 60, 60, 64)        73792
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 30, 30, 64)        0
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 28, 28, 64)        36928
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 14, 14, 64)        0
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, 12, 12, 64)        36928
+_________________________________________________________________
+flatten (Flatten)            (None, 9216)              0
+_________________________________________________________________
+dense (Dense)                (None, 64)                589888
+_________________________________________________________________
+dense_1 (Dense)              (None, 2)                 130
+=================================================================
+Total params: 888,834
+Trainable params: 888,834
+Non-trainable params: 0
+_________________________________________________________________
+Train on 912 samples, validate on 228 samples
+Epoch 1/100
+2019-12-03 18:44:28.606167: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2019-12-03 18:44:28.828929: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2019-12-03 18:44:29.606464: W tensorflow/stream_executor/cuda/redzone_allocator.cc:312] Internal: Invoking ptxas not supported on Windows
+Relying on driver to perform ptx compilation. This message will be only logged once.
+2019-12-03 18:44:30.536691: W tensorflow/core/common_runtime/bfc_allocator.cc:239] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.05GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+896/912 [============================>.] - ETA: 0s - loss: 0.6700 - accuracy: 0.5547
+Epoch 00001: saving model to training/cp.ckpt
+912/912 [==============================] - 10s 11ms/sample - loss: 0.6685 - accuracy: 0.5548 - val_loss: 0.5890 - val_accuracy: 0.7719
+Epoch 2/100
+896/912 [============================>.] - ETA: 0s - loss: 0.4946 - accuracy: 0.7723
+Epoch 00002: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.4921 - accuracy: 0.7741 - val_loss: 0.4708 - val_accuracy: 0.8114
+Epoch 3/100
+896/912 [============================>.] - ETA: 0s - loss: 0.3960 - accuracy: 0.8192
+Epoch 00003: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.3922 - accuracy: 0.8213 - val_loss: 0.3933 - val_accuracy: 0.8377
+Epoch 4/100
+896/912 [============================>.] - ETA: 0s - loss: 0.3521 - accuracy: 0.8438
+Epoch 00004: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.3496 - accuracy: 0.8443 - val_loss: 0.3836 - val_accuracy: 0.8333
+Epoch 5/100
+896/912 [============================>.] - ETA: 0s - loss: 0.3406 - accuracy: 0.8404
+Epoch 00005: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.3395 - accuracy: 0.8410 - val_loss: 0.3661 - val_accuracy: 0.8465
+Epoch 6/100
+896/912 [============================>.] - ETA: 0s - loss: 0.3469 - accuracy: 0.8516
+Epoch 00006: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.3468 - accuracy: 0.8509 - val_loss: 0.3590 - val_accuracy: 0.8596
+Epoch 7/100
+896/912 [============================>.] - ETA: 0s - loss: 0.2544 - accuracy: 0.8817
+Epoch 00007: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.2578 - accuracy: 0.8794 - val_loss: 0.3823 - val_accuracy: 0.8640
+Epoch 8/100
+896/912 [============================>.] - ETA: 0s - loss: 0.2102 - accuracy: 0.9074
+Epoch 00008: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.2078 - accuracy: 0.9079 - val_loss: 0.5112 - val_accuracy: 0.7675
+Epoch 9/100
+896/912 [============================>.] - ETA: 0s - loss: 0.1677 - accuracy: 0.9219
+Epoch 00009: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 0.1656 - accuracy: 0.9232 - val_loss: 0.5376 - val_accuracy: 0.8202
+Epoch 10/100
+896/912 [============================>.] - ETA: 0s - loss: 0.1266 - accuracy: 0.9509
+Epoch 00010: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 0.1256 - accuracy: 0.9518 - val_loss: 0.7249 - val_accuracy: 0.8246
+Epoch 11/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0888 - accuracy: 0.9743
+Epoch 00011: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 0.0881 - accuracy: 0.9748 - val_loss: 1.1225 - val_accuracy: 0.8246
+Epoch 12/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0943 - accuracy: 0.9710
+Epoch 00012: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 0.0946 - accuracy: 0.9704 - val_loss: 0.8133 - val_accuracy: 0.8026
+Epoch 13/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0579 - accuracy: 0.9788
+Epoch 00013: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 0.0576 - accuracy: 0.9792 - val_loss: 0.9163 - val_accuracy: 0.8114
+Epoch 14/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0410 - accuracy: 0.9900
+Epoch 00014: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 0.0404 - accuracy: 0.9901 - val_loss: 1.4010 - val_accuracy: 0.8289
+Epoch 15/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0618 - accuracy: 0.9810
+Epoch 00015: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 0.0646 - accuracy: 0.9792 - val_loss: 1.0388 - val_accuracy: 0.8202
+Epoch 16/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0288 - accuracy: 0.9944
+Epoch 00016: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0284 - accuracy: 0.9945 - val_loss: 1.2077 - val_accuracy: 0.7895
+Epoch 17/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0144 - accuracy: 0.9989
+Epoch 00017: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 0.0141 - accuracy: 0.9989 - val_loss: 1.3559 - val_accuracy: 0.8026
+Epoch 18/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0077 - accuracy: 0.9989
+Epoch 00018: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0076 - accuracy: 0.9989 - val_loss: 1.6374 - val_accuracy: 0.8026
+Epoch 19/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0049 - accuracy: 0.9989
+Epoch 00019: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0048 - accuracy: 0.9989 - val_loss: 1.6866 - val_accuracy: 0.8070
+Epoch 20/100
+896/912 [============================>.] - ETA: 0s - loss: 0.1583 - accuracy: 0.9475
+Epoch 00020: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.1564 - accuracy: 0.9485 - val_loss: 0.8940 - val_accuracy: 0.7982
+Epoch 21/100
+896/912 [============================>.] - ETA: 0s - loss: 0.1192 - accuracy: 0.9643
+Epoch 00021: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 0.1180 - accuracy: 0.9649 - val_loss: 0.9586 - val_accuracy: 0.7982
+Epoch 22/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0217 - accuracy: 0.9955
+Epoch 00022: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 0.0236 - accuracy: 0.9945 - val_loss: 1.2859 - val_accuracy: 0.7851
+Epoch 23/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0416 - accuracy: 0.9833
+Epoch 00023: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0430 - accuracy: 0.9814 - val_loss: 1.2173 - val_accuracy: 0.7939
+Epoch 24/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0223 - accuracy: 0.9933
+Epoch 00024: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0222 - accuracy: 0.9934 - val_loss: 1.7320 - val_accuracy: 0.7939
+Epoch 25/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0137 - accuracy: 0.9967
+Epoch 00025: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0135 - accuracy: 0.9967 - val_loss: 1.5753 - val_accuracy: 0.7763
+Epoch 26/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0048 - accuracy: 0.9989
+Epoch 00026: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0047 - accuracy: 0.9989 - val_loss: 2.2902 - val_accuracy: 0.7895
+Epoch 27/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0261 - accuracy: 0.9944
+Epoch 00027: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0257 - accuracy: 0.9945 - val_loss: 1.6669 - val_accuracy: 0.8246
+Epoch 28/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0364 - accuracy: 0.9888
+Epoch 00028: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0365 - accuracy: 0.9890 - val_loss: 1.9833 - val_accuracy: 0.8026
+Epoch 29/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0186 - accuracy: 0.9900
+Epoch 00029: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0183 - accuracy: 0.9901 - val_loss: 1.5046 - val_accuracy: 0.8421
+Epoch 30/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0084 - accuracy: 0.9989
+Epoch 00030: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0083 - accuracy: 0.9989 - val_loss: 1.6707 - val_accuracy: 0.8070
+Epoch 31/100
+896/912 [============================>.] - ETA: 0s - loss: 0.0012 - accuracy: 1.0000
+Epoch 00031: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 0.0012 - accuracy: 1.0000 - val_loss: 1.8180 - val_accuracy: 0.8026
+Epoch 32/100
+896/912 [============================>.] - ETA: 0s - loss: 5.4998e-04 - accuracy: 1.0000
+Epoch 00032: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 5.4168e-04 - accuracy: 1.0000 - val_loss: 1.9547 - val_accuracy: 0.8114
+Epoch 33/100
+896/912 [============================>.] - ETA: 0s - loss: 5.9477e-04 - accuracy: 1.0000
+Epoch 00033: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 5.9037e-04 - accuracy: 1.0000 - val_loss: 2.0871 - val_accuracy: 0.8026
+Epoch 34/100
+896/912 [============================>.] - ETA: 0s - loss: 2.2546e-04 - accuracy: 1.0000
+Epoch 00034: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 2.2527e-04 - accuracy: 1.0000 - val_loss: 2.0498 - val_accuracy: 0.8114
+Epoch 35/100
+896/912 [============================>.] - ETA: 0s - loss: 1.8980e-04 - accuracy: 1.0000
+Epoch 00035: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 1.9172e-04 - accuracy: 1.0000 - val_loss: 2.1223 - val_accuracy: 0.8114
+Epoch 36/100
+896/912 [============================>.] - ETA: 0s - loss: 1.1610e-04 - accuracy: 1.0000
+Epoch 00036: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 1.4808e-04 - accuracy: 1.0000 - val_loss: 2.1618 - val_accuracy: 0.8202
+Epoch 37/100
+896/912 [============================>.] - ETA: 0s - loss: 1.7528e-04 - accuracy: 1.0000
+Epoch 00037: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 1.7303e-04 - accuracy: 1.0000 - val_loss: 2.1901 - val_accuracy: 0.8114
+Epoch 38/100
+896/912 [============================>.] - ETA: 0s - loss: 9.7348e-05 - accuracy: 1.0000
+Epoch 00038: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 9.9673e-05 - accuracy: 1.0000 - val_loss: 2.2250 - val_accuracy: 0.8158
+Epoch 39/100
+896/912 [============================>.] - ETA: 0s - loss: 7.7282e-05 - accuracy: 1.0000
+Epoch 00039: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 7.8452e-05 - accuracy: 1.0000 - val_loss: 2.2647 - val_accuracy: 0.8202
+Epoch 40/100
+896/912 [============================>.] - ETA: 0s - loss: 6.1981e-05 - accuracy: 1.0000
+Epoch 00040: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 6.6037e-05 - accuracy: 1.0000 - val_loss: 2.2984 - val_accuracy: 0.8158
+Epoch 41/100
+896/912 [============================>.] - ETA: 0s - loss: 5.5219e-05 - accuracy: 1.0000
+Epoch 00041: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 5.5573e-05 - accuracy: 1.0000 - val_loss: 2.3287 - val_accuracy: 0.8158
+Epoch 42/100
+896/912 [============================>.] - ETA: 0s - loss: 4.8791e-05 - accuracy: 1.0000
+Epoch 00042: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 4.9125e-05 - accuracy: 1.0000 - val_loss: 2.3564 - val_accuracy: 0.8158
+Epoch 43/100
+896/912 [============================>.] - ETA: 0s - loss: 4.2279e-05 - accuracy: 1.0000
+Epoch 00043: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 4.2456e-05 - accuracy: 1.0000 - val_loss: 2.3914 - val_accuracy: 0.8158
+Epoch 44/100
+896/912 [============================>.] - ETA: 0s - loss: 3.7217e-05 - accuracy: 1.0000
+Epoch 00044: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 3.6631e-05 - accuracy: 1.0000 - val_loss: 2.4128 - val_accuracy: 0.8158
+Epoch 45/100
+896/912 [============================>.] - ETA: 0s - loss: 3.2194e-05 - accuracy: 1.0000
+Epoch 00045: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 3.1756e-05 - accuracy: 1.0000 - val_loss: 2.4492 - val_accuracy: 0.8202
+Epoch 46/100
+896/912 [============================>.] - ETA: 0s - loss: 2.9355e-05 - accuracy: 1.0000
+Epoch 00046: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 2.9470e-05 - accuracy: 1.0000 - val_loss: 2.4706 - val_accuracy: 0.8202
+Epoch 47/100
+896/912 [============================>.] - ETA: 0s - loss: 2.5897e-05 - accuracy: 1.0000
+Epoch 00047: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 2.5590e-05 - accuracy: 1.0000 - val_loss: 2.4961 - val_accuracy: 0.8202
+Epoch 48/100
+896/912 [============================>.] - ETA: 0s - loss: 2.2716e-05 - accuracy: 1.0000
+Epoch 00048: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 2.2905e-05 - accuracy: 1.0000 - val_loss: 2.5121 - val_accuracy: 0.8158
+Epoch 49/100
+896/912 [============================>.] - ETA: 0s - loss: 1.6625e-05 - accuracy: 1.0000
+Epoch 00049: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 2.1571e-05 - accuracy: 1.0000 - val_loss: 2.5336 - val_accuracy: 0.8158
+Epoch 50/100
+896/912 [============================>.] - ETA: 0s - loss: 2.0947e-05 - accuracy: 1.0000
+Epoch 00050: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 2.0601e-05 - accuracy: 1.0000 - val_loss: 2.5812 - val_accuracy: 0.8246
+Epoch 51/100
+896/912 [============================>.] - ETA: 0s - loss: 1.6720e-05 - accuracy: 1.0000
+Epoch 00051: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 1.6698e-05 - accuracy: 1.0000 - val_loss: 2.5841 - val_accuracy: 0.8114
+Epoch 52/100
+896/912 [============================>.] - ETA: 0s - loss: 1.4914e-05 - accuracy: 1.0000
+Epoch 00052: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 1.5376e-05 - accuracy: 1.0000 - val_loss: 2.6079 - val_accuracy: 0.8114
+Epoch 53/100
+896/912 [============================>.] - ETA: 0s - loss: 1.4411e-05 - accuracy: 1.0000
+Epoch 00053: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 1.4224e-05 - accuracy: 1.0000 - val_loss: 2.6277 - val_accuracy: 0.8070
+Epoch 54/100
+896/912 [============================>.] - ETA: 0s - loss: 1.3066e-05 - accuracy: 1.0000
+Epoch 00054: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 1.2873e-05 - accuracy: 1.0000 - val_loss: 2.6443 - val_accuracy: 0.8070
+Epoch 55/100
+896/912 [============================>.] - ETA: 0s - loss: 1.2029e-05 - accuracy: 1.0000
+Epoch 00055: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 1.1877e-05 - accuracy: 1.0000 - val_loss: 2.6647 - val_accuracy: 0.8070
+Epoch 56/100
+896/912 [============================>.] - ETA: 0s - loss: 1.0989e-05 - accuracy: 1.0000
+Epoch 00056: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 1.0797e-05 - accuracy: 1.0000 - val_loss: 2.6844 - val_accuracy: 0.8070
+Epoch 57/100
+896/912 [============================>.] - ETA: 0s - loss: 9.8762e-06 - accuracy: 1.0000
+Epoch 00057: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 1.0099e-05 - accuracy: 1.0000 - val_loss: 2.7026 - val_accuracy: 0.8070
+Epoch 58/100
+896/912 [============================>.] - ETA: 0s - loss: 9.2713e-06 - accuracy: 1.0000
+Epoch 00058: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 9.1235e-06 - accuracy: 1.0000 - val_loss: 2.7218 - val_accuracy: 0.8070
+Epoch 59/100
+896/912 [============================>.] - ETA: 0s - loss: 8.5815e-06 - accuracy: 1.0000
+Epoch 00059: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 8.5361e-06 - accuracy: 1.0000 - val_loss: 2.7409 - val_accuracy: 0.8070
+Epoch 60/100
+896/912 [============================>.] - ETA: 0s - loss: 7.9556e-06 - accuracy: 1.0000
+Epoch 00060: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 7.8390e-06 - accuracy: 1.0000 - val_loss: 2.7559 - val_accuracy: 0.8070
+Epoch 61/100
+896/912 [============================>.] - ETA: 0s - loss: 7.0112e-06 - accuracy: 1.0000
+Epoch 00061: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 7.2553e-06 - accuracy: 1.0000 - val_loss: 2.7765 - val_accuracy: 0.8070
+Epoch 62/100
+896/912 [============================>.] - ETA: 0s - loss: 6.6919e-06 - accuracy: 1.0000
+Epoch 00062: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 6.8177e-06 - accuracy: 1.0000 - val_loss: 2.7975 - val_accuracy: 0.8070
+Epoch 63/100
+896/912 [============================>.] - ETA: 0s - loss: 6.0491e-06 - accuracy: 1.0000
+Epoch 00063: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 6.1389e-06 - accuracy: 1.0000 - val_loss: 2.8217 - val_accuracy: 0.8070
+Epoch 64/100
+896/912 [============================>.] - ETA: 0s - loss: 5.7051e-06 - accuracy: 1.0000
+Epoch 00064: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 5.6346e-06 - accuracy: 1.0000 - val_loss: 2.8404 - val_accuracy: 0.8070
+Epoch 65/100
+896/912 [============================>.] - ETA: 0s - loss: 5.1328e-06 - accuracy: 1.0000
+Epoch 00065: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 5.0435e-06 - accuracy: 1.0000 - val_loss: 2.8638 - val_accuracy: 0.8070
+Epoch 66/100
+896/912 [============================>.] - ETA: 0s - loss: 4.5751e-06 - accuracy: 1.0000
+Epoch 00066: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 4.4951e-06 - accuracy: 1.0000 - val_loss: 2.8995 - val_accuracy: 0.8070
+Epoch 67/100
+896/912 [============================>.] - ETA: 0s - loss: 4.0636e-06 - accuracy: 1.0000
+Epoch 00067: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 4.0170e-06 - accuracy: 1.0000 - val_loss: 2.9289 - val_accuracy: 0.8070
+Epoch 68/100
+896/912 [============================>.] - ETA: 0s - loss: 3.7110e-06 - accuracy: 1.0000
+Epoch 00068: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 3.6494e-06 - accuracy: 1.0000 - val_loss: 2.9801 - val_accuracy: 0.8114
+Epoch 69/100
+896/912 [============================>.] - ETA: 0s - loss: 3.3237e-06 - accuracy: 1.0000
+Epoch 00069: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 3.2724e-06 - accuracy: 1.0000 - val_loss: 3.0087 - val_accuracy: 0.8070
+Epoch 70/100
+896/912 [============================>.] - ETA: 0s - loss: 2.7688e-06 - accuracy: 1.0000
+Epoch 00070: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 2.7427e-06 - accuracy: 1.0000 - val_loss: 3.0497 - val_accuracy: 0.8070
+Epoch 71/100
+896/912 [============================>.] - ETA: 0s - loss: 2.4116e-06 - accuracy: 1.0000
+Epoch 00071: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 2.4488e-06 - accuracy: 1.0000 - val_loss: 3.1058 - val_accuracy: 0.8070
+Epoch 72/100
+896/912 [============================>.] - ETA: 0s - loss: 2.1807e-06 - accuracy: 1.0000
+Epoch 00072: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 2.1523e-06 - accuracy: 1.0000 - val_loss: 3.1688 - val_accuracy: 0.8114
+Epoch 73/100
+896/912 [============================>.] - ETA: 0s - loss: 1.7975e-06 - accuracy: 1.0000
+Epoch 00073: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 1.8176e-06 - accuracy: 1.0000 - val_loss: 3.1912 - val_accuracy: 0.8070
+Epoch 74/100
+896/912 [============================>.] - ETA: 0s - loss: 1.5754e-06 - accuracy: 1.0000
+Epoch 00074: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 1.5492e-06 - accuracy: 1.0000 - val_loss: 3.2774 - val_accuracy: 0.8114
+Epoch 75/100
+896/912 [============================>.] - ETA: 0s - loss: 1.4194e-06 - accuracy: 1.0000
+Epoch 00075: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 1.4850e-06 - accuracy: 1.0000 - val_loss: 3.3000 - val_accuracy: 0.8070
+Epoch 76/100
+896/912 [============================>.] - ETA: 0s - loss: 1.4673e-06 - accuracy: 1.0000
+Epoch 00076: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 1.4471e-06 - accuracy: 1.0000 - val_loss: 3.3667 - val_accuracy: 0.8114
+Epoch 77/100
+896/912 [============================>.] - ETA: 0s - loss: 1.1975e-06 - accuracy: 1.0000
+Epoch 00077: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 1.1773e-06 - accuracy: 1.0000 - val_loss: 3.3769 - val_accuracy: 0.8070
+Epoch 78/100
+896/912 [============================>.] - ETA: 0s - loss: 1.0154e-06 - accuracy: 1.0000
+Epoch 00078: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 9.9784e-07 - accuracy: 1.0000 - val_loss: 3.4571 - val_accuracy: 0.8070
+Epoch 79/100
+896/912 [============================>.] - ETA: 0s - loss: 9.6670e-07 - accuracy: 1.0000
+Epoch 00079: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 9.5837e-07 - accuracy: 1.0000 - val_loss: 3.4747 - val_accuracy: 0.8070
+Epoch 80/100
+896/912 [============================>.] - ETA: 0s - loss: 8.1716e-07 - accuracy: 1.0000
+Epoch 00080: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 8.3589e-07 - accuracy: 1.0000 - val_loss: 3.5176 - val_accuracy: 0.8026
+Epoch 81/100
+896/912 [============================>.] - ETA: 0s - loss: 7.5223e-07 - accuracy: 1.0000
+Epoch 00081: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 7.4962e-07 - accuracy: 1.0000 - val_loss: 3.5434 - val_accuracy: 0.8026
+Epoch 82/100
+896/912 [============================>.] - ETA: 0s - loss: 7.0780e-07 - accuracy: 1.0000
+Epoch 00082: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 7.0963e-07 - accuracy: 1.0000 - val_loss: 3.5793 - val_accuracy: 0.8026
+Epoch 83/100
+896/912 [============================>.] - ETA: 0s - loss: 7.1432e-07 - accuracy: 1.0000
+Epoch 00083: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 7.0231e-07 - accuracy: 1.0000 - val_loss: 3.6132 - val_accuracy: 0.8026
+Epoch 84/100
+896/912 [============================>.] - ETA: 0s - loss: 5.9657e-07 - accuracy: 1.0000
+Epoch 00084: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 6.3251e-07 - accuracy: 1.0000 - val_loss: 3.6220 - val_accuracy: 0.8026
+Epoch 85/100
+896/912 [============================>.] - ETA: 0s - loss: 5.3697e-07 - accuracy: 1.0000
+Epoch 00085: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 5.5879e-07 - accuracy: 1.0000 - val_loss: 3.6621 - val_accuracy: 0.8026
+Epoch 86/100
+896/912 [============================>.] - ETA: 0s - loss: 5.3684e-07 - accuracy: 1.0000
+Epoch 00086: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 5.2873e-07 - accuracy: 1.0000 - val_loss: 3.6772 - val_accuracy: 0.8026
+Epoch 87/100
+896/912 [============================>.] - ETA: 0s - loss: 5.1169e-07 - accuracy: 1.0000
+Epoch 00087: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 5.1644e-07 - accuracy: 1.0000 - val_loss: 3.7268 - val_accuracy: 0.8026
+Epoch 88/100
+896/912 [============================>.] - ETA: 0s - loss: 4.5156e-07 - accuracy: 1.0000
+Epoch 00088: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 4.6337e-07 - accuracy: 1.0000 - val_loss: 3.7240 - val_accuracy: 0.8026
+Epoch 89/100
+896/912 [============================>.] - ETA: 0s - loss: 4.3413e-07 - accuracy: 1.0000
+Epoch 00089: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 4.2677e-07 - accuracy: 1.0000 - val_loss: 3.7560 - val_accuracy: 0.8026
+Epoch 90/100
+896/912 [============================>.] - ETA: 0s - loss: 3.6441e-07 - accuracy: 1.0000
+Epoch 00090: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 3.9671e-07 - accuracy: 1.0000 - val_loss: 3.7870 - val_accuracy: 0.8026
+Epoch 91/100
+896/912 [============================>.] - ETA: 0s - loss: 3.8477e-07 - accuracy: 1.0000
+Epoch 00091: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 3.8272e-07 - accuracy: 1.0000 - val_loss: 3.8019 - val_accuracy: 0.8026
+Epoch 92/100
+896/912 [============================>.] - ETA: 0s - loss: 3.5337e-07 - accuracy: 1.0000
+Epoch 00092: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 3.5161e-07 - accuracy: 1.0000 - val_loss: 3.8285 - val_accuracy: 0.8026
+Epoch 93/100
+896/912 [============================>.] - ETA: 0s - loss: 3.4632e-07 - accuracy: 1.0000
+Epoch 00093: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 3.4455e-07 - accuracy: 1.0000 - val_loss: 3.8501 - val_accuracy: 0.8026
+Epoch 94/100
+896/912 [============================>.] - ETA: 0s - loss: 3.4392e-07 - accuracy: 1.0000
+Epoch 00094: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 3.3841e-07 - accuracy: 1.0000 - val_loss: 3.8444 - val_accuracy: 0.8026
+Epoch 95/100
+896/912 [============================>.] - ETA: 0s - loss: 3.0640e-07 - accuracy: 1.0000
+Epoch 00095: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 3.0390e-07 - accuracy: 1.0000 - val_loss: 3.9025 - val_accuracy: 0.8026
+Epoch 96/100
+896/912 [============================>.] - ETA: 0s - loss: 2.8871e-07 - accuracy: 1.0000
+Epoch 00096: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 2.8495e-07 - accuracy: 1.0000 - val_loss: 3.8982 - val_accuracy: 0.8026
+Epoch 97/100
+896/912 [============================>.] - ETA: 0s - loss: 2.7620e-07 - accuracy: 1.0000
+Epoch 00097: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 2.7489e-07 - accuracy: 1.0000 - val_loss: 3.9159 - val_accuracy: 0.8026
+Epoch 98/100
+896/912 [============================>.] - ETA: 0s - loss: 2.6410e-07 - accuracy: 1.0000
+Epoch 00098: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 2.5959e-07 - accuracy: 1.0000 - val_loss: 3.9325 - val_accuracy: 0.8026
+Epoch 99/100
+896/912 [============================>.] - ETA: 0s - loss: 2.4055e-07 - accuracy: 1.0000
+Epoch 00099: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 7ms/sample - loss: 2.4639e-07 - accuracy: 1.0000 - val_loss: 3.9436 - val_accuracy: 0.8026
+Epoch 100/100
+896/912 [============================>.] - ETA: 0s - loss: 2.3775e-07 - accuracy: 1.0000
+Epoch 00100: saving model to training/cp.ckpt
+912/912 [==============================] - 6s 6ms/sample - loss: 2.3384e-07 - accuracy: 1.0000 - val_loss: 3.9647 - val_accuracy: 0.8026
+228/1 - 0s - loss: 5.6765 - accuracy: 0.8026
+
+(tf_gpu) F:\ece5831\ECE5831-Term-Project\road_classify>python evaluate.py
+2019-12-03 19:06:14.404876: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+classes =  ['rural', 'urban']
+classes =  [0, 1]
+classesDict =  {'rural': 0, 'urban': 1}
+Minimum number of images from the classes =  114
+Loaded 114 images for class 'rural'
+Loaded 114 images for class 'urban'
+load model
+2019-12-03 19:06:21.604896: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2019-12-03 19:06:21.633493: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties:
+name: GeForce GTX 1080 major: 6 minor: 1 memoryClockRate(GHz): 1.8475
+pciBusID: 0000:01:00.0
+2019-12-03 19:06:21.641500: I tensorflow/stream_executor/platform/default/dlopen_checker_stub.cc:25] GPU libraries are statically linked, skip dlopen check.
+2019-12-03 19:06:21.648325: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2019-12-03 19:06:21.653327: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX
+2019-12-03 19:06:21.661762: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties:
+name: GeForce GTX 1080 major: 6 minor: 1 memoryClockRate(GHz): 1.8475
+pciBusID: 0000:01:00.0
+2019-12-03 19:06:21.670360: I tensorflow/stream_executor/platform/default/dlopen_checker_stub.cc:25] GPU libraries are statically linked, skip dlopen check.
+2019-12-03 19:06:21.676306: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2019-12-03 19:06:22.225956: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-12-03 19:06:22.230911: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0
+2019-12-03 19:06:22.235127: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N
+2019-12-03 19:06:22.239408: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 6354 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080, pci bus id: 0000:01:00.0, compute capability: 6.1)
+2019-12-03 19:06:23.409146: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2019-12-03 19:06:23.669688: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2019-12-03 19:06:24.483438: W tensorflow/stream_executor/cuda/redzone_allocator.cc:312] Internal: Invoking ptxas not supported on Windows
+Relying on driver to perform ptx compilation. This message will be only logged once.
+228/1 - 2s - loss: 6.4299 - accuracy: 0.8026
+test loss, test acc: [3.9646797514798346, 0.80263156]
+confusion_matrix
+[[89 25]
+ [20 94]]

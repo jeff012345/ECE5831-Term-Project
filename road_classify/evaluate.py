@@ -18,13 +18,13 @@ from model import create_model
 
 ## where are the images
 #data_root_folder = 'F:/ece5831/windows/Screens_256Pix/separated/2_class'
-data_root_folder = 'F:/ece5831/windows/Ricky/groupings/separated_2class'
+data_root_folder = 'F:/ece5831/ECE5831-Term-Project/road_classify/training/corrected_images/test_images'
 
 ## within the folder, what extensions are we looking for
 data_images_extension = '*.*'
 
 ## h5 file of model
-model_filepath = "F:/ece5831/windows/models/jeff_200epochs/trained_model.h5"
+model_filepath = "F:/ece5831/ECE5831-Term-Project/road_classify/training/corrected_images/trained_model.h5"
 
 ##
 ## END setup values
@@ -52,35 +52,80 @@ train_images = train_images / 255.0
 print("load model");
 model = tf.keras.models.load_model(model_filepath)
 
-results = model.evaluate(train_images, train_labels, verbose=2)
-print('test loss, test acc:', results)
+## make the ROC curve 
+## https://www.dlology.com/blog/simple-guide-on-how-to-generate-roc-plot-for-keras-classifier/
+n_classes = 2
 
-predictions = model.predict(train_images)
+y_test = []
+for label in train_labels:
+    if label == 0:
+        y_test.append([1,0])
+    else:
+        y_test.append([0,1])
+y_test = np.asarray(y_test)
 
-## use the max value from array for each prediction
-predictions = np.argmax(predictions, axis = 1)
+y_score = model.predict(train_images)
 
-## convert the label to the class
-#train_classes = list(map(lambda l: classesDict[l], train_labels))
+from scipy import interp
+import matplotlib.pyplot as plt
+from itertools import cycle
+from sklearn.metrics import roc_curve, auc
 
-confusion_matrix = tf.math.confusion_matrix(
-        train_labels,
-        predictions
-    ).numpy()
+# Plot linewidth.
+lw = 2
 
-print("confusion_matrix")
-print(confusion_matrix)
+# Compute ROC curve and ROC area for each class
+fpr = dict()
+tpr = dict()
+roc_auc = dict()
+for i in range(n_classes):
+    fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_score[:, i])
+    roc_auc[i] = auc(fpr[i], tpr[i])
 
-con_mat_norm = np.around(confusion_matrix.astype('float') / confusion_matrix.sum(axis=1)[:, np.newaxis], decimals=2)
- 
-con_mat_df = pd.DataFrame(con_mat_norm,
-                     index = classes, 
-                     columns = classes)
+# Compute micro-average ROC curve and ROC area
+fpr["micro"], tpr["micro"], _ = roc_curve(y_test.ravel(), y_score.ravel())
+roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
 
+# Compute macro-average ROC curve and ROC area
 
-figure = plt.figure(figsize=(8, 8))
-sns.heatmap(con_mat_df, annot = True, cmap = plt.cm.Blues, square = True)
-#plt.tight_layout()
-plt.ylabel('True label')
-plt.xlabel('Predicted label')
+# First aggregate all false positive rates
+all_fpr = np.unique(np.concatenate([fpr[i] for i in range(n_classes)]))
+
+# Then interpolate all ROC curves at this points
+mean_tpr = np.zeros_like(all_fpr)
+for i in range(n_classes):
+    mean_tpr += interp(all_fpr, fpr[i], tpr[i])
+
+# Finally average it and compute AUC
+mean_tpr /= n_classes
+
+fpr["macro"] = all_fpr
+tpr["macro"] = mean_tpr
+roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
+
+# Plot all ROC curves
+plt.figure(1)
+plt.plot(fpr["micro"], tpr["micro"],
+         label='micro-average ROC curve (area = {0:0.2f})'
+               ''.format(roc_auc["micro"]),
+         color='deeppink', linestyle=':', linewidth=4)
+
+plt.plot(fpr["macro"], tpr["macro"],
+         label='macro-average ROC curve (area = {0:0.2f})'
+               ''.format(roc_auc["macro"]),
+         color='navy', linestyle=':', linewidth=4)
+
+colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
+for i, color in zip(range(n_classes), colors):
+    plt.plot(fpr[i], tpr[i], color=color, lw=lw,
+             label='ROC curve of class {0} (area = {1:0.2f})'
+             ''.format(i, roc_auc[i]))
+
+plt.plot([0, 1], [0, 1], 'k--', lw=lw)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Some extension of Receiver operating characteristic to multi-class')
+plt.legend(loc="lower right")
 plt.show()
